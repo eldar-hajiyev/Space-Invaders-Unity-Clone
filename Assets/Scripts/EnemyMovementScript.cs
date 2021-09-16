@@ -34,19 +34,19 @@ public class EnemyMovementScript : MonoBehaviour {
 			if (LifeManager.gameOver)
 				collection.velocity = Vector2.zero;
 
-			if (!transform.FindChild ("EnemyColumn5")) {
+			if (!transform.Find ("EnemyColumn5")) {
 				if (!dec [4])
 					decrementBoxOffset (4);
-				if (!transform.FindChild ("EnemyColumn4")) {
+				if (!transform.Find ("EnemyColumn4")) {
 					if (!dec [3])
 						decrementBoxOffset (3);
-					if (!transform.FindChild ("EnemyColumn3")) {
+					if (!transform.Find ("EnemyColumn3")) {
 						if (!dec [2])
 							decrementBoxOffset (2);
-						if (!transform.FindChild ("EnemyColumn2")) {
+						if (!transform.Find ("EnemyColumn2")) {
 							if (!dec [1])
 								decrementBoxOffset (1);
-							if (!transform.FindChild ("EnemyColumn1")) {
+							if (!transform.Find ("EnemyColumn1")) {
 								if (!dec [0])
 									decrementBoxOffset (0);
 							}
@@ -55,19 +55,19 @@ public class EnemyMovementScript : MonoBehaviour {
 				}
 			}
 
-			if (!transform.FindChild ("EnemyColumn10")) {
+			if (!transform.Find ("EnemyColumn10")) {
 				if (!dec [9])
 					incrementBoxOffset (9);
-				if (!transform.FindChild ("EnemyColumn9")) {
+				if (!transform.Find ("EnemyColumn9")) {
 					if (!dec [8])
 						incrementBoxOffset (8);
-					if (!transform.FindChild ("EnemyColumn8")) {
+					if (!transform.Find ("EnemyColumn8")) {
 						if (!dec [7])
 							incrementBoxOffset (7);
-						if (!transform.FindChild ("EnemyColumn7")) {
+						if (!transform.Find ("EnemyColumn7")) {
 							if (!dec [6])
 								incrementBoxOffset (6);
-							if (!transform.FindChild ("EnemyColumn6")) {
+							if (!transform.Find ("EnemyColumn6")) {
 								if (!dec [5])
 									incrementBoxOffset (5);
 							}

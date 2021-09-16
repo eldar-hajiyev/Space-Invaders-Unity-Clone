@@ -15,15 +15,15 @@ public class LifeManager : MonoBehaviour {
 
 	void Update () {
 		if (lives == 2) {
-			transform.FindChild ("LifeLabel").gameObject.GetComponent<Text> ().text = "2";
-			transform.FindChild ("LifeImage2").gameObject.SetActive (false);
+			transform.Find ("LifeLabel").gameObject.GetComponent<Text> ().text = "2";
+			transform.Find ("LifeImage2").gameObject.SetActive (false);
 		} if (lives == 1) {
-			transform.FindChild ("LifeLabel").gameObject.GetComponent<Text> ().text = "1";
-			transform.FindChild ("LifeImage1").gameObject.SetActive (false);
+			transform.Find ("LifeLabel").gameObject.GetComponent<Text> ().text = "1";
+			transform.Find ("LifeImage1").gameObject.SetActive (false);
 		} if (lives == 0) {
 			gameOver = true;
 			player.SetActive (false);
-			transform.FindChild ("LifeLabel").gameObject.GetComponent<Text> ().text = "0";
+			transform.Find ("LifeLabel").gameObject.GetComponent<Text> ().text = "0";
 		}
 	}
 }
