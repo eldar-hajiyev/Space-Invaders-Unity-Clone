@@ -52,23 +52,31 @@
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
   <ItemGroup>
-     <Compile Include="Assets\Scripts\HighScoreUpdateScript.cs" />
-     <Compile Include="Assets\Scripts\UIScript.cs" />
+     <Compile Include="Assets\Scripts\Ui\ScoreText.cs" />
+     <Compile Include="Assets\Scripts\Ui\HighScoreUpdateScript.cs" />
+     <Compile Include="Assets\Scripts\Ui\UIScript.cs" />
      <Compile Include="Assets\Scripts\MasterControllerScript.cs" />
+     <Compile Include="Assets\Scripts\Tags.cs" />
      <Compile Include="Assets\Scripts\BunkerScript.cs" />
+     <Compile Include="Assets\Scripts\IEnemyScore.cs" />
      <Compile Include="Assets\Scripts\EnemyMovementScript.cs" />
-     <Compile Include="Assets\Scripts\EnemyCounter.cs" />
-     <Compile Include="Assets\Scripts\CounterScript.cs" />
+     <Compile Include="Assets\Scripts\Ui\CounterScript.cs" />
+     <Compile Include="Assets\Scripts\Ui\WinText.cs" />
+     <Compile Include="Assets\Scripts\IEnemyHit.cs" />
      <Compile Include="Assets\Scripts\ColumnControllerScript.cs" />
+     <Compile Include="Assets\Scripts\Managers\GameFlowManager.cs" />
      <Compile Include="Assets\Scripts\EnemyBulletScript.cs" />
+     <Compile Include="Assets\Scripts\DestroyEventBehaviour.cs" />
      <Compile Include="Assets\Scripts\PlayerActionScript.cs" />
-     <Compile Include="Assets\Scripts\GameOverScript.cs" />
+     <Compile Include="Assets\Scripts\Ui\GameOverScript.cs" />
      <Compile Include="Assets\Scripts\ResponsiveScript.cs" />
+     <Compile Include="Assets\Scripts\Ui\LifeDisplayer.cs" />
      <Compile Include="Assets\Scripts\EnemyScript.cs" />
-     <Compile Include="Assets\Scripts\LifeManager.cs" />
-     <Compile Include="Assets\Scripts\ScoreManager.cs" />
-     <Compile Include="Assets\Scripts\PlayerBulletScript.cs" />
+     <Compile Include="Assets\Scripts\Managers\EnemyCounterManager.cs" />
+     <Compile Include="Assets\Scripts\Managers\LifeManager.cs" />
+     <Compile Include="Assets\Scripts\Managers\ScoreManager.cs" />
      <Compile Include="Assets\Scripts\EnemyColumnsPositioner.cs" />
+     <Compile Include="Assets\Scripts\PlayerBulletScript.cs" />
  <Reference Include="UnityEngine">
  <HintPath>C:/Program Files/Unity/Hub/Editor/2020.3.10f1/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>
  </Reference>
@@ -657,6 +665,9 @@
  <Reference Include="Unity.TextMeshPro">
  <HintPath>C:/UnityProjects/Space-Invaders-Unity-Clone/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
  </Reference>
+ <Reference Include="Unity.2D.Sprite.Editor">
+ <HintPath>C:/UnityProjects/Space-Invaders-Unity-Clone/Library/ScriptAssemblies/Unity.2D.Sprite.Editor.dll</HintPath>
+ </Reference>
  <Reference Include="UnityEditor.UI">
  <HintPath>C:/UnityProjects/Space-Invaders-Unity-Clone/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
  </Reference>
@@ -668,9 +679,6 @@
  </Reference>
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/UnityProjects/Space-Invaders-Unity-Clone/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
- </Reference>
- <Reference Include="Unity.2D.Sprite.Editor">
- <HintPath>C:/UnityProjects/Space-Invaders-Unity-Clone/Library/ScriptAssemblies/Unity.2D.Sprite.Editor.dll</HintPath>
  </Reference>
   </ItemGroup>
   <ItemGroup>

@@ -8,8 +8,7 @@ public class ColumnControllerScript : MonoBehaviour {
 	public float max = 10;
 
 	void Start () {
-		float rand = Random.Range (min, max);
-		Invoke ("SelectForFire", rand);
+		GameFlowManager.Instance.OnGameStarted += FireInRandomTime;
 	}
 
 	void Update () {
@@ -18,11 +17,15 @@ public class ColumnControllerScript : MonoBehaviour {
 	}
 
 	void SelectForFire () {
-		if (!CounterScript.counter && !LifeManager.gameOver && transform.childCount > 0) {
-			transform.GetChild (0).gameObject.GetComponent<EnemyScript> ().Invoke ("Fire", 0f);
-
-			float rand = Random.Range (min, max / 4);
-			Invoke ("SelectForFire", rand);
+		if (!LifeManager.Instance.IsPlayerDead() && transform.childCount > 0)
+		{
+			transform.GetChild (0).gameObject.GetComponent<EnemyScript> ().Fire ();
+			FireInRandomTime();
 		} 
+	}
+
+	private void FireInRandomTime() {
+		float rand = Random.Range(min, max / 4);
+		Invoke(nameof(SelectForFire), rand);
 	}
 }

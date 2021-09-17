@@ -1,124 +1,80 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class EnemyMovementScript : MonoBehaviour {
 
-	private static Rigidbody2D collection;
-	private BoxCollider2D box;
-	private bool right = true;
-	private bool start = true;
-
-	public bool[] dec;
 	public static float moveSpeed;
+	
+	Rigidbody2D collection;
+	BoxCollider2D box;
+	bool right = true;
 
+	const float enemySize = 0.75f;
+	
 	void Start () {
 		box = GetComponent<BoxCollider2D> ();
 		collection = GetComponent<Rigidbody2D> ();
-		moveRight ();
+		MoveRight ();
 
-		dec = new bool[10];
-		for (int i = 0; i < 10; i++)
-			dec [i] = false;
+		foreach (Transform child in transform) {
+			child.gameObject.AddComponent<DestroyEventBehaviour>().OnDestroyEvent += OnColumnDestroy;
+		}
+
+		collection.velocity = Vector2.zero;
+		LifeManager.Instance.OnLivesEnded += () => collection.velocity = Vector2.zero;
+		GameFlowManager.Instance.OnGameStarted += MoveRight;
+		var enemyCounterManager = EnemyCounterManager.Instance;
+		enemyCounterManager.OnEnemyCountChanged += UpdateSpeed;
+		UpdateSpeed(enemyCounterManager.GetEnemyCount());
 	}
 
-	void Update () {
-		moveSpeed = Mathf.Pow ((Mathf.Sqrt (56 - EnemyCounter.count) / (Mathf.Sqrt (Mathf.Pow (56, 2) - Mathf.Pow (EnemyCounter.count, 2)))) * 10, 3) - 0.25f;
-
-		if (!CounterScript.counter) {
-			if (start) {
-				moveRight ();
-				start = false;
-			}
-
-			if (LifeManager.gameOver)
-				collection.velocity = Vector2.zero;
-
-			if (!transform.Find ("EnemyColumn5")) {
-				if (!dec [4])
-					decrementBoxOffset (4);
-				if (!transform.Find ("EnemyColumn4")) {
-					if (!dec [3])
-						decrementBoxOffset (3);
-					if (!transform.Find ("EnemyColumn3")) {
-						if (!dec [2])
-							decrementBoxOffset (2);
-						if (!transform.Find ("EnemyColumn2")) {
-							if (!dec [1])
-								decrementBoxOffset (1);
-							if (!transform.Find ("EnemyColumn1")) {
-								if (!dec [0])
-									decrementBoxOffset (0);
-							}
-						}
-					}
-				}
-			}
-
-			if (!transform.Find ("EnemyColumn10")) {
-				if (!dec [9])
-					incrementBoxOffset (9);
-				if (!transform.Find ("EnemyColumn9")) {
-					if (!dec [8])
-						incrementBoxOffset (8);
-					if (!transform.Find ("EnemyColumn8")) {
-						if (!dec [7])
-							incrementBoxOffset (7);
-						if (!transform.Find ("EnemyColumn7")) {
-							if (!dec [6])
-								incrementBoxOffset (6);
-							if (!transform.Find ("EnemyColumn6")) {
-								if (!dec [5])
-									incrementBoxOffset (5);
-							}
-						}
-					}
-				}
-			}
-		} else
-			collection.velocity = Vector2.zero;
+	void UpdateSpeed(int enemyCount) {
+		moveSpeed = Mathf.Pow ((Mathf.Sqrt (56 - enemyCount) / (Mathf.Sqrt (Mathf.Pow (56, 2) - Mathf.Pow (enemyCount, 2)))) * 10, 3) - 0.25f;
 	}
 
-	void decrementBoxOffset (int index) {
-		dec [index] = true;
-
-		box.offset = new Vector2 (box.offset.x - 0.5f, box.offset.y);
-		box.size = new Vector2 (box.size.x - 1f, box.offset.y);
+	void OnColumnDestroy() {
+		UpdateBoxSize();
 	}
 
-	void incrementBoxOffset (int index) {
-		dec [index] = true;
-
-		box.offset = new Vector2 (box.offset.x + 0.5f, box.offset.y);
-		box.size = new Vector2 (box.size.x - 1f, box.offset.y);
+	[ContextMenu("UpdateBoxSize")]
+	void UpdateBoxSize() {
+		if (box == null)
+			box = GetComponent<BoxCollider2D> ();
+		var children = transform.Cast<Transform>().ToArray();
+		var maxXPosition = children.Max(child => child.transform.localPosition.x);
+		var minXPosition = children.Min(child => child.transform.localPosition.x);
+		var distance = maxXPosition - minXPosition;
+		box.offset = new Vector2 ((maxXPosition + minXPosition) / 2f, box.offset.y);
+		box.size = new Vector2 ((distance + enemySize), box.offset.y);
 	}
 
 	void OnTriggerEnter2D (Collider2D col) {
-		if (col.gameObject.tag == "SideCollider") {
+		if (col.gameObject.CompareTag(Tags.SideCollider)) {
 			if (right) {
 				right = false;
-				moveLeft ();
+				MoveLeft ();
 			} else {
 				right = true;
-				moveRight ();
+				MoveRight ();
 			}
 
-			moveDown ();
-		} else if (col.gameObject.tag == "EndGame") {
-			LifeManager.lives = 0;
-			LifeManager.gameOver = true;
+			MoveDown ();
+		} else if (col.gameObject.CompareTag(Tags.EndGame)) {
+			LifeManager.Instance.GetDamage(int.MaxValue);
 		}
 	}
 
-	static void moveRight () {
+	void MoveRight () {
 		collection.velocity = new Vector2 (moveSpeed, 0);
 	}
 
-	void moveLeft () {
+	void MoveLeft () {
 		collection.velocity = new Vector2(-moveSpeed, 0);
 	}
 
-	void moveDown () {
+	void MoveDown () {
 		float x = transform.position.x;
 		float y = transform.position.y - 0.2f;
 		transform.position = new Vector2 (x, y);

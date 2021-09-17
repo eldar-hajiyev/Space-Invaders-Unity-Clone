@@ -7,10 +7,12 @@ public class ResponsiveScript : MonoBehaviour {
 	public float orthographicSize = 10;
 	public float aspect = 1f;
 
-	void Start() {
-		Camera.main.projectionMatrix = Matrix4x4.Ortho (
+	void Start()
+	{
+		var cameraMain = Camera.main;
+		cameraMain.projectionMatrix = Matrix4x4.Ortho (
 			-orthographicSize * aspect, orthographicSize * aspect,
 			-orthographicSize, orthographicSize,
-			Camera.main.nearClipPlane, Camera.main.farClipPlane);
+			cameraMain.nearClipPlane, cameraMain.farClipPlane);
 	}
 }

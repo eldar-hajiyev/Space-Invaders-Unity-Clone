@@ -5,7 +5,7 @@ using UnityEngine;
 public class BunkerScript : MonoBehaviour {
 
 	void OnTriggerEnter2D (Collider2D col) {
-		if (col.gameObject.tag == "EnemyBullet" || col.gameObject.tag == "PlayerBullet") {
+		if (col.gameObject.CompareTag(Tags.EnemyBullet) || col.gameObject.CompareTag(Tags.PlayerBullet)) {
 			Destroy (gameObject);
 			Destroy (col.gameObject);
 		}
